@@ -1,0 +1,94 @@
+ext {
+    android = [
+            minSDKVersion : 21,
+            targetSDKVersion : 28,
+            compileSDKVersion : 28,
+            buildToolsVersion: "28.0.3",
+            repleaceAppcompat: "28.0.0",
+            versionName      : "1.0.0",
+            versionCode      : 1
+    ]
+
+    def lifecycle_version = "2.0.0"
+
+    dependencies = [
+            // 系统库
+            appcompatV7 : 'androidx.appcompat:appcompat:1.1.0-alpha01',
+            androidXCore : 'androidx.core:core-ktx:1.1.0-alpha04',
+            design : "com.google.android.material:material:1.0.0-rc01",
+            cardview : 'androidx.cardview:cardview:1.0.0',
+            recyclerview : 'androidx.recyclerview:recyclerview:1.0.0',
+            constraintLayout : 'androidx.constraintlayout:constraintlayout:1.1.3',
+
+            // 网络
+            okhttp : 'com.squareup.okhttp3:okhttp:3.12.1',
+            okhttpLog : 'com.squareup.okhttp3:logging-interceptor:3.12.1',
+            retrofit : 'com.squareup.retrofit2:retrofit:2.5.0',
+            adapterRxjava : 'com.squareup.retrofit2:adapter-rxjava2:2.5.0',
+
+            // 解析相关
+            converterGson : 'com.squareup.retrofit2:converter-gson:2.5.0',
+            converterScalars : 'com.squareup.retrofit2:converter-scalars:2.5.0',
+
+            // Rx系列
+            rxJava : 'io.reactivex.rxjava2:rxjava:2.2.6',
+            rxAndroid : 'io.reactivex.rxjava2:rxandroid:2.1.0',
+
+            // 控件绑定
+            rxBinding : 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2',
+            rxBindingCore : 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2',
+            rxBindingV7 : 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0-alpha2',
+
+            // 生命周期
+            rxlifecycle : 'com.trello.rxlifecycle3:rxlifecycle:3.0.0',
+            rxlifecycleComponents : 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0',
+            rxlifecycleComponentsPre : 'com.trello.rxlifecycle3:rxlifecycle-components-preference:3.0.0',
+
+            //权限
+            rxpermissions:'com.github.tbruyelle:rxpermissions:0.10.2',
+
+            // 三方控件库
+
+            // 下拉刷新
+            smartRefresh : 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-20',
+
+            // 列表适配器
+            baseAdapterHelper : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30',
+
+            // 图片加载
+            glide : 'com.github.bumptech.glide:glide:4.8.0',
+            glideProcessor : 'com.github.bumptech.glide:compiler:4.8.0',
+
+            //路由
+            aRouter : 'com.alibaba:arouter-api:1.4.1',
+            aRouterProcessor : 'com.alibaba:arouter-compiler:1.2.2',
+
+            // 底层存储
+            // KV存储
+            mmkv : 'com.tencent:mmkv:1.0.17',
+
+            view_model : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
+            extensions : "androidx.lifecycle:lifecycle-extensions:$lifecycle_version",
+            view_model_streams : "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version",
+
+            //utils
+            utilcode : 'com.blankj:utilcode:1.21.0',
+
+            // UI框架库
+            qmui : 'com.qmuiteam:qmui:1.2.0',
+            qmui_arch : 'com.qmuiteam:arch:0.3.1',
+
+            //Zxing核心包
+            zxing: 'com.google.zxing:core:3.3.3',
+
+            butterknife : 'com.jakewharton:butterknife:10.0.0',
+            butterknife_compiler : 'com.jakewharton:butterknife-compiler:10.0.0',
+
+            // 分包
+            multidex : 'com.android.support:multidex:1.0.3',
+
+            // 弹窗
+            basepopup : 'com.github.razerdp:BasePopup:2.1.8',
+            luban     : 'top.zibin:Luban:1.1.3'
+    ]
+}

@@ -1,0 +1,81 @@
+apply plugin: 'com.android.library'
+def config = parent.ext.android
+def configDependencies = parent.ext.dependencies
+
+android {
+    compileSdkVersion config.compileSDKVersion
+    buildToolsVersion config.buildToolsVersion
+    defaultConfig {
+        minSdkVersion config.minSDKVersion
+        targetSdkVersion config.targetSDKVersion
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
+dependencies {
+    api configDependencies.appcompatV7
+    api configDependencies.androidXCore
+    api (configDependencies.design) {
+        exclude group:'androidx.appcompat'
+    }
+    api configDependencies.cardview
+    api configDependencies.recyclerview
+    api configDependencies.constraintLayout
+
+    api configDependencies.okhttp
+    api configDependencies.okhttpLog
+    api configDependencies.retrofit
+    api configDependencies.adapterRxjava
+
+    api configDependencies.converterGson
+    api configDependencies.converterScalars
+
+    api configDependencies.rxJava
+    api configDependencies.rxAndroid
+
+    api configDependencies.rxBinding
+    api (configDependencies.rxBindingCore) {
+        exclude group:'androidx.appcompat'
+    }
+    api (configDependencies.rxBindingV7) {
+        exclude group:'androidx.appcompat'
+    }
+
+    api configDependencies.rxlifecycle
+    api (configDependencies.rxlifecycleComponents) {
+        exclude group:'androidx.appcompat'
+    }
+    api (configDependencies.rxlifecycleComponentsPre) {
+        exclude group:'androidx.appcompat'
+    }
+
+    api configDependencies.rxpermissions
+
+    api configDependencies.smartRefresh
+
+    api configDependencies.baseAdapterHelper
+
+    api configDependencies.glide
+    annotationProcessor configDependencies.rxlifecycleComponentsPre
+
+    api configDependencies.aRouter
+    annotationProcessor configDependencies.aRouterProcessor
+
+    api configDependencies.mmkv
+
+    api configDependencies.view_model
+    api configDependencies.extensions
+//    api configDependencies.view_model
+
+    api configDependencies.qmui
+    api configDependencies.qmui_arch
+
+    api project(':annotation')
+}

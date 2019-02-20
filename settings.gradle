@@ -1,0 +1,1 @@
+include ':app', ':base', ':main', ':other', ':mine', ':apt', ':annotation', ':deps'

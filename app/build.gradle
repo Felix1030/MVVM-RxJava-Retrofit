@@ -1,0 +1,39 @@
+apply plugin: 'com.android.application'
+def config = parent.ext.android
+
+android {
+    compileSdkVersion config.compileSDKVersion
+    buildToolsVersion config.buildToolsVersion
+    defaultConfig {
+        applicationId "com.felix.mvvm_rxjava_retrofit"
+        minSdkVersion config.minSDKVersion
+        targetSdkVersion config.targetSDKVersion
+        versionCode config.versionCode
+        versionName config.versionName
+        multiDexEnabled true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
+
+dependencies {
+    implementation project(':base')
+}
