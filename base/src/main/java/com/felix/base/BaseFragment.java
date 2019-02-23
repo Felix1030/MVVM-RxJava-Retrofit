@@ -1,0 +1,195 @@
+package com.felix.base;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+
+import com.qmuiteam.qmui.arch.QMUIFragment;
+import com.qmuiteam.qmui.util.QMUIDisplayHelper;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
+import com.trello.rxlifecycle3.LifecycleProvider;
+import com.trello.rxlifecycle3.LifecycleTransformer;
+import com.trello.rxlifecycle3.RxLifecycle;
+import com.trello.rxlifecycle3.android.FragmentEvent;
+import com.trello.rxlifecycle3.android.RxLifecycleAndroid;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProviders;
+import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
+
+public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseViewModel> extends QMUIFragment implements LifecycleProvider<FragmentEvent> {
+
+    protected D mDataBinding;
+    protected VM mViewModel;
+    //    private int mViewModelId;
+    protected Context mContext;
+    protected Fragment mFragment;
+
+    public BaseFragment() {
+        mFragment = this;
+    }
+
+    @Override
+    protected int backViewInitOffset() {
+        return QMUIDisplayHelper.dp2px(mContext, 100);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.mContext = context;
+    }
+
+    @Override
+    protected View onCreateView() {
+        mDataBinding = DataBindingUtil.inflate(getLayoutInflater(), getLayoutId(), getBaseFragmentActivity().getFragmentContainer(), false);
+//        mViewModelId = initVariableId();
+        mViewModel = initViewModel();
+        reInitViewModel();
+        getLifecycle().addObserver(mViewModel);
+        mViewModel.injectLifecycleProvider(this);
+        initView();
+        return mDataBinding.getRoot();
+    }
+
+    //    public int initVariableId() {
+//    } // ViewModelId
+    protected abstract int getLayoutId(); // 布局ID
+
+    protected abstract void initView(); // 初始化
+
+    private void reInitViewModel() {
+        if (mViewModel == null) {
+            Class modelClass;
+            Type type = getClass().getGenericSuperclass();
+            if (type instanceof ParameterizedType) {
+                modelClass = (Class) ((ParameterizedType) type).getActualTypeArguments()[1];
+            } else {
+                //如果没有指定泛型参数，则默认使用BaseViewModel
+                modelClass = BaseViewModel.class;
+            }
+            mViewModel = (VM) createViewModel(this, modelClass);
+        }
+    }
+
+    /**
+     * 创建ViewModel
+     *
+     * @param cls
+     * @param <T>
+     * @return
+     */
+    public <T extends ViewModel> T createViewModel(Fragment fragment, Class<T> cls) {
+        return ViewModelProviders.of(fragment).get(cls);
+    }
+
+    private VM initViewModel() {
+        return null;
+    }
+
+    private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
+
+    @Override
+    @NonNull
+    @CheckResult
+    public final Observable<FragmentEvent> lifecycle() {
+        return lifecycleSubject.hide();
+    }
+
+    @Override
+    @NonNull
+    @CheckResult
+    public final <T> LifecycleTransformer<T> bindUntilEvent(@NonNull FragmentEvent event) {
+        return RxLifecycle.bindUntilEvent(lifecycleSubject, event);
+    }
+
+    @Override
+    @NonNull
+    @CheckResult
+    public final <T> LifecycleTransformer<T> bindToLifecycle() {
+        return RxLifecycleAndroid.bindFragment(lifecycleSubject);
+    }
+
+    @Override
+    public void onAttach(android.app.Activity activity) {
+        super.onAttach(activity);
+        lifecycleSubject.onNext(FragmentEvent.ATTACH);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        lifecycleSubject.onNext(FragmentEvent.CREATE);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        lifecycleSubject.onNext(FragmentEvent.CREATE_VIEW);
+        if (isLight()) { // 深色背景  白色字体
+            QMUIStatusBarHelper.setStatusBarDarkMode(getBaseFragmentActivity());
+        } else { // 白色背景  深色字体
+            QMUIStatusBarHelper.setStatusBarLightMode(getBaseFragmentActivity());
+        }
+    }
+
+    protected boolean isLight() {
+        return false;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        lifecycleSubject.onNext(FragmentEvent.START);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        lifecycleSubject.onNext(FragmentEvent.RESUME);
+    }
+
+    @Override
+    public void onPause() {
+        lifecycleSubject.onNext(FragmentEvent.PAUSE);
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        lifecycleSubject.onNext(FragmentEvent.STOP);
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        lifecycleSubject.onNext(FragmentEvent.DESTROY_VIEW);
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        lifecycleSubject.onNext(FragmentEvent.DESTROY);
+        super.onDestroy();
+        getLifecycle().removeObserver(mViewModel);
+        if (null != mViewModel) mViewModel.removeRxBus();
+        if (mDataBinding != null) mDataBinding.unbind();
+    }
+
+    @Override
+    public void onDetach() {
+        lifecycleSubject.onNext(FragmentEvent.DETACH);
+        mContext = null;
+        super.onDetach();
+    }
+}
