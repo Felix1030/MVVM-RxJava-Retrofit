@@ -1,36 +1,28 @@
 package com.felix.mvvm_rxjava_retrofit.home;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 
 import com.felix.apt.AppApiServices;
+import com.felix.base.arch.RxCommand;
 import com.felix.base.viewmodel.BaseViewModel;
+import com.felix.mvvm_rxjava_retrofit.model.MusicRaingItem;
+
+import java.util.List;
+
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 
 public class HomeViewModel extends BaseViewModel {
 
-    private MutableLiveData<Boolean> mResetSuccess;
+    private RxCommand<List<MusicRaingItem>> mDatas;
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
     }
 
-    // 监听以及执行方法
-    public MutableLiveData<Boolean> getIsReset() {
-        if (null == mResetSuccess) {
-            mResetSuccess = new MutableLiveData<>();
-            reset();
+    public RxCommand<List<MusicRaingItem>> getMusicRanking() {
+        if (null == mDatas) {
+            mDatas = RxCommand.create(o -> AppApiServices.musicRankings().toObservable());
         }
-        return mResetSuccess;
-    }
-
-    @SuppressLint("CheckResult")
-    private void reset() {
-        AppApiServices.reset("")
-                .compose(getLifecycleViewProvider().bindToDestroy())
-                .compose(provideProgress())
-                .subscribe(consumer -> mResetSuccess.setValue(consumer), throwable -> {});
-
+        return mDatas;
     }
 }

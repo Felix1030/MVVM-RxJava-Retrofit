@@ -1,31 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+        <variable
+            name="text"
+            type="String" />
+    </data>
+
     <com.qmuiteam.qmui.widget.QMUIWindowInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/qmui_topbar_height"
             android:background="#FFFFFF"
             android:fitsSystemWindows="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/fragment_home_test_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="top|center"
                 android:text="测试"
                 android:textColor="#262626"
                 android:textSize="16sp" />
 
-        </FrameLayout>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <TextView
+                    android:id="@+id/fragment_home_test_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#262626"
+                    android:text="@{text}"
+                    android:textSize="14sp" />
+            </ScrollView>
+        </LinearLayout>
 
         <com.qmuiteam.qmui.widget.QMUITopBarLayout
             android:id="@+id/fragment_home_top_bar"
