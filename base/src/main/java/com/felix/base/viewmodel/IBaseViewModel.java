@@ -1,4 +1,4 @@
-package com.felix.base;
+package com.felix.base.viewmodel;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;

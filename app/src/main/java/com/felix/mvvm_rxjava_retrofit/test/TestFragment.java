@@ -1,7 +1,7 @@
 package com.felix.mvvm_rxjava_retrofit.test;
 
-import com.felix.base.BaseFragment;
-import com.felix.base.BaseViewModel;
+import com.felix.base.basic.BaseFragment;
+import com.felix.base.viewmodel.BaseViewModel;
 import com.felix.mvvm_rxjava_retrofit.R;
 import com.felix.mvvm_rxjava_retrofit.databinding.FragmentTestBinding;
 

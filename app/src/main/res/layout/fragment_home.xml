@@ -16,6 +16,15 @@
             android:focusable="true"
             android:focusableInTouchMode="true">
 
+            <Button
+                android:id="@+id/fragment_home_test_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="测试"
+                android:textColor="#262626"
+                android:textSize="16sp" />
+
         </FrameLayout>
 
         <com.qmuiteam.qmui.widget.QMUITopBarLayout

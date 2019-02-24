@@ -1,4 +1,4 @@
-package com.felix.base;
+package com.felix.base.basic;
 
 import android.app.Application;
 

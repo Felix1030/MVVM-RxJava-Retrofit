@@ -1,9 +1,10 @@
-package com.felix.base;
+package com.felix.base.basic;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import com.felix.base.viewmodel.BaseViewModel;
 import com.qmuiteam.qmui.arch.QMUIFragment;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
@@ -24,16 +25,22 @@ import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
+import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 
-public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseViewModel> extends QMUIFragment implements LifecycleProvider<FragmentEvent> {
+public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseViewModel> extends QMUIFragment implements LifecycleProvider<FragmentEvent>,ILifeCycleView {
 
+    // DataBinding类
     protected D mDataBinding;
+    // ViewModel类
     protected VM mViewModel;
-    //    private int mViewModelId;
+    // private int mViewModelId;
     protected Context mContext;
     protected Fragment mFragment;
+
+    // Fragment生命周期变化通知
+    private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
 
     public BaseFragment() {
         mFragment = this;
@@ -57,17 +64,34 @@ public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseVie
         mViewModel = initViewModel();
         reInitViewModel();
         getLifecycle().addObserver(mViewModel);
+
+        // 生命周期相关
         mViewModel.injectLifecycleProvider(this);
+        mViewModel.injectLifecycleView(this);
+
+        // 注册ProgressDialog 事件回调
+        registerUIProgressChangeCallBack();
+        // 初始化View
         initView();
+        // 服务器加载数据
+        initData();
+        // 注册事件
+        mViewModel.registerRxBus();
         return mDataBinding.getRoot();
     }
 
     //    public int initVariableId() {
 //    } // ViewModelId
-    protected abstract int getLayoutId(); // 布局ID
+    // 布局ID
+    protected abstract int getLayoutId();
 
-    protected abstract void initView(); // 初始化
+    // 初始化View
+    protected abstract void initView();
 
+    // 子类重写加载数据
+    protected void initData() {}
+
+    // 初始化ViewModel
     private void reInitViewModel() {
         if (mViewModel == null) {
             Class modelClass;
@@ -96,8 +120,6 @@ public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseVie
     private VM initViewModel() {
         return null;
     }
-
-    private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
 
     @Override
     @NonNull
@@ -133,18 +155,51 @@ public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseVie
     }
 
     @Override
+    public <T> FlowableTransformer<T, T> bindToDestroy() {
+        return bindUntilEvent(FragmentEvent.DESTROY);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         lifecycleSubject.onNext(FragmentEvent.CREATE_VIEW);
-        if (isLight()) { // 深色背景  白色字体
+        if (isLight()) {
+            // 深色背景  白色字体
             QMUIStatusBarHelper.setStatusBarDarkMode(getBaseFragmentActivity());
-        } else { // 白色背景  深色字体
+        } else {
+            // 白色背景  深色字体
             QMUIStatusBarHelper.setStatusBarLightMode(getBaseFragmentActivity());
         }
     }
 
+    // isLight = true  深色背景  白色字体
+    // isLight = false 白色背景  深色字体
     protected boolean isLight() {
         return false;
+    }
+
+    // Progress显示隐藏事件回调
+    private void registerUIProgressChangeCallBack() {
+        // 显示Progress事件
+        mViewModel.getUIProgressLiveData()
+                .getShowProgressEvent().observe(this,progressMessage -> {
+
+        });
+        // 隐藏Progress回调事件
+        mViewModel.getUIProgressLiveData()
+                .getDismissProgressEvent().observe(this, aVoid -> {
+
+                });
+    }
+
+    // 显示Progress
+    public void showProgress(String progressMessage) {
+
+    }
+
+    // 隐藏Progress
+    public void dismissProgress() {
+
     }
 
     @Override
