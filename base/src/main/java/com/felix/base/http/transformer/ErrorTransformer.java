@@ -21,7 +21,7 @@ public class ErrorTransformer<T> implements FlowableTransformer<BaseResponse<T>,
             if (!tBaseResponse.isSuccess()) {
                 throw new ServerException(tBaseResponse);
             }
-            return tBaseResponse.result;
+            return tBaseResponse.data;
         }).onErrorResumeNext(throwable -> {
             return Flowable.error(ExceptionHandle.handleException(throwable));
         });

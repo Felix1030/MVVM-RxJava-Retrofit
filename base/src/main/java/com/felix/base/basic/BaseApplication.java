@@ -7,6 +7,8 @@ import android.content.Context;
 import com.felix.base.http.NetWorkConfiguration;
 import com.felix.base.http.NetWorkManager;
 import com.felix.base.utils.LogUtils;
+import com.felix.base.utils.loader.ImageLoader;
+import com.felix.base.utils.loader.glide.GlideLoaderStrategy;
 import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
 
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -29,6 +31,9 @@ public class BaseApplication extends Application {
                 .baseUrl(BASE_URL)
                 .addInterceptor(new HttpLoggingInterceptor(message -> LogUtils.i("OkHttp", message)).setLevel(HttpLoggingInterceptor.Level.BODY));
         NetWorkManager.initConfiguration(configuration);
+
+        // 图片加载
+        ImageLoader.get().setLoaderStrategy(new GlideLoaderStrategy());
     }
     public static Context getContext() {
         return sContext;

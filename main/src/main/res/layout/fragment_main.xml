@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.qmuiteam.qmui.widget.QMUIWindowInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <cn.bingoogolapple.bgabanner.BGABanner
+                android:id="@+id/main_banner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp230"
+                android:scaleType="fitXY"
+                app:banner_indicatorGravity="bottom|right"
+                app:banner_placeholderDrawable="@drawable/banner_placeholder"
+                app:banner_tipTextColor="@color/c_CCFFFFFF"
+                app:banner_tipTextSize="@dimen/sp16"
+                app:banner_transitionEffect="alpha" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.qmuiteam.qmui.widget.QMUIWindowInsetLayout>
+</layout>

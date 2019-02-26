@@ -1,15 +1,16 @@
 package com.felix.base.http;
 
 public class BaseResponse<T> {
-    private static final int SUCCESS_CODE = 200;
+    private static final int SUCCESS_CODE = 0;
+    public static final int RELOGIN_CODE = -1001;
     // 服务器返回Code
-    public int code;
+    public int errorCode;
     // 错误消息
-    public String message;
+    public String errorMsg;
     // 成功参数
-    public T result;
+    public T data;
 
     public boolean isSuccess() {
-        return code == SUCCESS_CODE;
+        return errorCode == SUCCESS_CODE;
     }
 }

@@ -25,6 +25,9 @@ android {
 dependencies {
     api project(':deps')
     api project(':annotation')
+
+    annotationProcessor parent.ext.dependencies.glidex
+    annotationProcessor parent.ext.dependencies.glideProcessor
 }
 
 

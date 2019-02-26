@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
 def config = parent.ext.android
 
+def isMainModule = parent.ext.global.isMainModule.toBoolean() // 首页
+def isKnowModule = parent.ext.global.isKnowModule.toBoolean() // 知识
+def isNavModule = parent.ext.global.isNavModule.toBoolean() // 导航
+def isMineModule = parent.ext.global.isMineModule.toBoolean() // 我的
+
 android {
     compileSdkVersion config.compileSDKVersion
     buildToolsVersion config.buildToolsVersion
@@ -42,6 +47,19 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':base')
+
+    if (!isMainModule) {
+        implementation project(':main')
+    }
+    if (!isKnowModule) {
+        implementation project(':know')
+    }
+    if (!isNavModule) {
+        implementation project(':nav')
+    }
+    if (!isMineModule) {
+        implementation project(':mine')
+    }
 
     // 自动生成网络请求代码
     annotationProcessor project(':apt')

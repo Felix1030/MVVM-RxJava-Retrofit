@@ -9,6 +9,13 @@ ext {
             versionCode      : 1
     ]
 
+    global = [
+            isMainModule : false,
+            isKnowModule : false,
+            isNavModule : false,
+            isMineModule : false
+    ]
+
     def lifecycle_version = "2.0.0"
 
     dependencies = [
@@ -56,8 +63,9 @@ ext {
             baseAdapterHelper : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30',
 
             // 图片加载
-            glide : 'com.github.bumptech.glide:glide:4.8.0',
-            glideProcessor : 'com.github.bumptech.glide:compiler:4.8.0',
+            glide : 'com.github.bumptech.glide:glide:4.9.0',
+            glidex : 'androidx.annotation:annotation:1.1.0-alpha01',
+            glideProcessor : 'com.github.bumptech.glide:compiler:4.9.0',
 
             //路由
             aRouter : 'com.alibaba:arouter-api:1.4.1',
@@ -72,7 +80,7 @@ ext {
             view_model_streams : "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version",
 
             //utils
-            utilcode : 'com.blankj:utilcode:1.21.0',
+            utilcode : 'com.blankj:utilcode:1.23.5',
 
             // UI框架库
             qmui : 'com.qmuiteam:qmui:1.2.0',
@@ -89,6 +97,9 @@ ext {
 
             // 弹窗
             basepopup : 'com.github.razerdp:BasePopup:2.1.8',
-            luban     : 'top.zibin:Luban:1.1.3'
+            luban     : 'top.zibin:Luban:1.1.3',
+
+            // banner
+            banner : 'cn.bingoogolapple:bga-banner:2.2.4@aar'
     ]
 }

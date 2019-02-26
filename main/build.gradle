@@ -1,34 +1,55 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.android.library'
+def global = parent.ext.global
+def isMainModule = global.isMainModule.toBoolean()
+if (isMainModule) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+def config = parent.ext.android
 
 android {
-    compileSdkVersion 28
-
-
-
+    compileSdkVersion config.compileSDKVersion
+    buildToolsVersion config.buildToolsVersion
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        if (isMainModule) {
+            applicationId "com.felix.main"
+        }
+        minSdkVersion config.minSDKVersion
+        targetSdkVersion config.targetSDKVersion
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
         }
     }
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    dataBinding {
+        enabled true
+    }
+    sourceSets {
+        main {
+            if (isMainModule) {
+                manifest.srcFile 'src/main/module/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }
+        }
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
+    implementation project(':base')
+
+    // 自动生成网络请求代码
+    annotationProcessor project(':apt')
 }

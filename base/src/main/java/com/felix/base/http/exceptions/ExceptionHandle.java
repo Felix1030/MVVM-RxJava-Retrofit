@@ -28,7 +28,7 @@ public class ExceptionHandle {
         ResponseThrowable ex;
         if (e instanceof ServerException) {
             ServerException resultException = (ServerException) e;
-            ex = new ResponseThrowable(resultException.getTHttpResponse().code, resultException);
+            ex = new ResponseThrowable(resultException.getTHttpResponse().errorCode, resultException);
         } else if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
             ex = new ResponseThrowable(ERROR.HTTP_ERROR, e);

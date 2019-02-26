@@ -1,0 +1,49 @@
+apply plugin: 'com.android.library'
+def global = parent.ext.global
+def isNavModule = global.isNavModule.toBoolean()
+if (isNavModule) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+def config = parent.ext.android
+
+android {
+    compileSdkVersion config.compileSDKVersion
+    buildToolsVersion config.buildToolsVersion
+    defaultConfig {
+        if (isNavModule) {
+            applicationId "com.felix.nav"
+        }
+        minSdkVersion config.minSDKVersion
+        targetSdkVersion config.targetSDKVersion
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    dataBinding {
+        enabled true
+    }
+    sourceSets {
+        main {
+            if (isNavModule) {
+                manifest.srcFile 'src/main/module/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }
+        }
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(':base')
+}
