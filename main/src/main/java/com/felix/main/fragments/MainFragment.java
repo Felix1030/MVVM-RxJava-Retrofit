@@ -2,14 +2,19 @@ package com.felix.main.fragments;
 
 import android.annotation.SuppressLint;
 import android.widget.ImageView;
+
 import com.felix.base.basic.BaseFragment;
+import com.felix.base.utils.LogUtils;
 import com.felix.base.utils.loader.ImageLoader;
 import com.felix.main.R;
 import com.felix.main.databinding.FragmentMainBinding;
+import com.felix.main.model.ArticleBaseModel;
 import com.felix.main.model.BannerModel;
 import com.felix.main.viewmodel.MainViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import cn.bingoogolapple.bgabanner.BGABanner;
 import io.reactivex.Observable;
 
@@ -30,6 +35,12 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
     @Override
     protected void initView() {
         mViewModel.getBanner().observe(this, this::setBanner);
+        mViewModel.getArticleModel().observe(this,this::setArticle);
+    }
+
+    /**文章列表*/
+    private void setArticle(ArticleBaseModel articleBaseModel) {
+        LogUtils.e(articleBaseModel.toString());
     }
 
     /*** 设置 */
@@ -53,5 +64,6 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
     @Override
     protected void initData() {
         mViewModel.initBanners();
+        mViewModel.initAllArticles(); // 初始化文章
     }
 }
