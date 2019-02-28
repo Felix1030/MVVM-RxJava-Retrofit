@@ -49,7 +49,7 @@ public class BaseApplication extends Application {
 //                header.setArrowDrawable(null);
                 header.setAccentColor(context.getResources().getColor(R.color.c_B2051223));
 //                header.setDrawableMarginRight(-context.getResources().getDimension(R.dimen.dp2));
-                header.setTextSizeTitle(10);
+                header.setTextSizeTitle(14);
                 return header;
             }
         });
