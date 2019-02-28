@@ -1,5 +1,7 @@
 package com.felix.main.model;
 
+import android.text.TextUtils;
+
 import java.util.List;
 
 public class ArticleModel {
@@ -52,7 +54,7 @@ public class ArticleModel {
     private int userId;
     private int visible;
     private int zan;
-    private String top;
+    private String top = "0";
     private List<TagsBean> tags;
 
     public String getApkLink() {
@@ -81,6 +83,20 @@ public class ArticleModel {
 
     public String getChapterName() {
         return chapterName;
+    }
+
+    /**界面显示用*/
+    public String getShowChapterName() {
+        String superChapterName = getSuperChapterName();
+        String chapterName = getChapterName();
+        if (!TextUtils.isEmpty(superChapterName) && !TextUtils.isEmpty(chapterName)) {
+            return superChapterName + "/" + chapterName;
+        } else if (!TextUtils.isEmpty(superChapterName)) {
+            return superChapterName;
+        } else if (!TextUtils.isEmpty(chapterName)) {
+            return chapterName;
+        }
+        return "";
     }
 
     public void setChapterName(String chapterName) {
@@ -237,6 +253,10 @@ public class ArticleModel {
 
     public void setTop(String top) {
         this.top = top;
+    }
+
+    public boolean isTop() {
+        return getTop().equals("1");
     }
 
     public List<TagsBean> getTags() {

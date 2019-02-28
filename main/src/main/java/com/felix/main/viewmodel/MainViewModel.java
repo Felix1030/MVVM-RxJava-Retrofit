@@ -56,4 +56,11 @@ public class MainViewModel extends BaseViewModel {
         }).subscribe(mArticleBaseModel::postValue, throwable -> {});
     }
 
+    /**根据页码刷新*/
+    @SuppressLint("CheckResult")
+    public void initArticlesWithPage(int pageIndex) {
+        MainApiServices.getArticles(pageIndex)
+                .subscribe(mArticleBaseModel::postValue, throwable -> {});
+    }
+
 }

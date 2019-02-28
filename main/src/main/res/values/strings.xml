@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">main</string>
+    <string name="str_top_tip">置顶</string>
+    <string name="str_top_new_tip">新</string>
 </resources>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="java.util.List" />
+
+        <import type="com.felix.main.model.ArticleModel.TagsBean" />
+
+        <import type="android.text.Html" />
+
+        <variable
+            name="article"
+            type="com.felix.main.model.ArticleModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp12"
+        android:layout_marginTop="@dimen/dp12"
+        android:layout_marginEnd="@dimen/dp12"
+        android:orientation="vertical"
+        app:cardCornerRadius="@dimen/dp4"
+        app:cardElevation="@dimen/dp1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/c_0000"
+            android:paddingTop="@dimen/dp10"
+            android:paddingBottom="@dimen/dp10">
+
+            <TextView
+                android:id="@+id/article_is_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp10"
+                android:background="@drawable/shape_stroke_2_ffff5454"
+                android:paddingLeft="@dimen/dp4"
+                android:paddingTop="@dimen/dp2"
+                android:paddingRight="@dimen/dp4"
+                android:paddingBottom="@dimen/dp2"
+                android:text="@string/str_top_tip"
+                android:textColor="@color/c_FFFF5454"
+                android:textSize="@dimen/sp10"
+                android:visibility="@{article.isTop? View.VISIBLE : View.GONE}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/article_is_fresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp10"
+                android:background="@drawable/shape_stroke_2_ffff5454"
+                android:paddingLeft="@dimen/dp4"
+                android:paddingTop="@dimen/dp2"
+                android:paddingRight="@dimen/dp4"
+                android:paddingBottom="@dimen/dp2"
+                android:text="@string/str_top_new_tip"
+                android:textColor="@color/c_FFFF5454"
+                android:textSize="@dimen/sp10"
+                android:visibility="@{article.isFresh? View.VISIBLE : View.GONE}"
+                app:layout_constraintLeft_toRightOf="@+id/article_is_top"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_article_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp10"
+                android:background="@drawable/shape_stroke_2_ff2b6aba"
+                android:paddingLeft="@dimen/dp4"
+                android:paddingTop="@dimen/dp2"
+                android:paddingRight="@dimen/dp4"
+                android:paddingBottom="@dimen/dp2"
+                android:text="@{article.getTags[0].name}"
+                android:textColor="@color/c_2B6ABA"
+                android:textSize="@dimen/sp10"
+                android:visibility="@{article.tags.size() > 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintLeft_toRightOf="@+id/article_is_fresh"
+                tools:text="@string/app_name"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/article_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_toRightOf="@+id/tv_article_tag"
+                android:text="@{article.author}"
+                android:textColor="@color/c_9BA0A6"
+                android:textSize="@dimen/sp12"
+                app:layout_constraintLeft_toRightOf="@+id/tv_article_tag"
+                tools:text="@string/app_name" />
+
+            <TextView
+                android:id="@+id/article_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp10"
+                android:text="@{article.niceDate}"
+                android:textColor="@color/c_999999"
+                android:textSize="@dimen/sp12"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/app_name" />
+
+            <ImageView
+                android:id="@+id/article_thumbnail"
+                android:layout_width="@dimen/dp100"
+                android:layout_height="@dimen/dp90"
+                android:layout_marginTop="@dimen/dp10"
+                android:scaleType="centerCrop"
+                android:visibility="@{article.envelopePic.empty ? View.GONE : View.VISIBLE}"
+                app:imageUrl="@{article.envelopePic}"
+                app:layout_constraintLeft_toLeftOf="@+id/article_is_top"
+                app:layout_constraintTop_toBottomOf="@+id/article_date"
+                app:layout_goneMarginStart="@dimen/dp10" />
+
+            <TextView
+                android:id="@+id/article_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginEnd="@dimen/dp10"
+                android:ellipsize="end"
+                android:gravity="top|start"
+                android:lineSpacingExtra="@dimen/dp2"
+                android:maxLines="2"
+                android:paddingBottom="@dimen/dp6"
+                android:text="@{Html.fromHtml(article.title)}"
+                android:textColor="@color/c_E6030E1D"
+                android:textSize="@dimen/sp16"
+                app:layout_constraintLeft_toRightOf="@+id/article_thumbnail"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/article_date"
+                app:layout_goneMarginStart="@dimen/dp10"
+                app:layout_goneMarginTop="@dimen/dp10" />
+
+            <TextView
+                android:id="@+id/article_chapterName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp10"
+                android:gravity="center"
+                android:text="@{article.getShowChapterName}"
+                android:textColor="@color/c_999999"
+                android:textSize="@dimen/sp12"
+                app:layout_constraintBottom_toTopOf="@+id/article_divider"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/article_thumbnail"
+                app:layout_goneMarginTop="@dimen/dp60"
+                tools:text="@string/app_name" />
+
+            <View
+                android:visibility="gone"
+                android:id="@+id/article_divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp12"
+                app:layout_constraintTop_toBottomOf="@+id/article_chapterName" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

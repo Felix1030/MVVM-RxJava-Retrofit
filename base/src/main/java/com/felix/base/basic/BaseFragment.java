@@ -77,7 +77,21 @@ public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseVie
         initData();
         // 注册事件
         mViewModel.registerRxBus();
+        // 下来刷新
+        initClassHeader();
         return mDataBinding.getRoot();
+    }
+
+    private void initClassHeader() {
+        /*ClassicsHeader.REFRESH_HEADER_PULLING = getResources().getString(R.string.str_head_pulldown);//"下拉可以刷新";
+        ClassicsHeader.REFRESH_HEADER_REFRESHING = getResources().getString(R.string.str_header_refreshing);//"正在刷新...";
+        ClassicsHeader.REFRESH_HEADER_RELEASE = getResources().getString(R.string.str_head_release);//"释放立即刷新";
+        ClassicsHeader.REFRESH_HEADER_FINISH = getResources().getString(R.string.str_header_finish);//"刷新完成";
+        ClassicsHeader.REFRESH_HEADER_FAILED = getResources().getString(R.string.str_header_failed);//"刷新失败";
+
+        ClassicsFooter.REFRESH_FOOTER_LOADING = getResources().getString(R.string.footer_loading);//"正在加载...";
+        ClassicsFooter.REFRESH_FOOTER_FINISH = getResources().getString(R.string.footer_finish);//"加载完成";
+        ClassicsFooter.REFRESH_FOOTER_NOTHING = ""; // 没有更多数据*/
     }
 
     //    public int initVariableId() {
