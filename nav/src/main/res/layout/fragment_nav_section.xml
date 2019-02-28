@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="name"
+            type="String" />
+    </data>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/section_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp45"
+        android:layout_marginBottom="@dimen/dp1"
+        android:background="@color/c_FFFFFFFF"
+        android:gravity="left|center_vertical"
+        android:text="@{name}"
+        android:textColor="@color/c_FF3C8FF9"
+        android:textSize="@dimen/sp16" />
+</layout>

@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.qmuiteam.qmui.widget.QMUIWindowInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
+        android:fitsSystemWindows="true"
+        android:layout_height="match_parent">
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="nav"
-            android:textSize="20sp" />
-    </LinearLayout>
+            android:layout_marginTop="?attr/qmui_topbar_height"
+            android:background="#FFFFFF"
+            android:fitsSystemWindows="true">
+
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/fragment_nav_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fragment_nav_rcy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dp12" />
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        </FrameLayout>
+
+        <com.qmuiteam.qmui.widget.QMUITopBarLayout
+            android:id="@+id/fragment_nav_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:qmui_topbar_need_separator="true" />
+    </com.qmuiteam.qmui.widget.QMUIWindowInsetLayout>
 </layout>

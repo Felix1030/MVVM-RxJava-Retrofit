@@ -3,7 +3,7 @@
     <string name="str_press_again_to_exit">再按一次退出程序</string>
 
     <string name="str_tabbar_main">首页</string>
-    <string name="str_tabbar_know">分类</string>
+    <string name="str_tabbar_know">项目</string>
     <string name="str_tabbar_nav">导航</string>
     <string name="str_tabbar_mine">我的</string>
 </resources>

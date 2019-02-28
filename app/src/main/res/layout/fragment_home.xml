@@ -8,8 +8,7 @@
             type="String" />
     </data>
 
-    <com.qmuiteam.qmui.widget.QMUIWindowInsetLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.qmuiteam.qmui.widget.QMUIWindowInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,7 +17,16 @@
             android:id="@+id/home_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/dp49" />
+            android:layout_marginBottom="@dimen/dp49"
+            android:fitsSystemWindows="true"
+            android:visibility="gone" />
+
+        <com.qmuiteam.qmui.widget.QMUIViewPager
+            android:id="@+id/home_fragment_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp49"
+            android:fitsSystemWindows="true" />
 
         <com.qmuiteam.qmui.widget.QMUITabSegment
             android:id="@+id/home_fragment_tabs"

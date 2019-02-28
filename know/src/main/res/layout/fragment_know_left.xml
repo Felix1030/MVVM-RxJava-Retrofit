@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="baseModel"
+            type="com.felix.know.model.KnowBaseModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/left_item"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp44"
+            android:layout_marginBottom="@dimen/dp0.5"
+            android:background="@{baseModel.isSelect ? @color/c_FFFFFFFF : @color/c_FFF8F8F8}"
+            android:gravity="center"
+            android:text="@{baseModel.name}"
+            android:textColor="@{baseModel.isSelect ? @color/c_B2051223 : @color/c_637792}"
+            android:textSize="@{baseModel.isSelect ? @dimen/sp13 : @dimen/sp11}" />
+
+        <ImageView
+            android:layout_width="@dimen/dp4"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/fragment_know_left_position"
+            android:visibility="@{baseModel.isSelect ? View.VISIBLE : View.INVISIBLE}" />
+    </RelativeLayout>
+
+</layout>
