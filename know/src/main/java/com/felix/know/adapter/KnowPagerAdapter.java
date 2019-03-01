@@ -23,7 +23,7 @@ public class KnowPagerAdapter extends FragmentStatePagerAdapter {
         mFragments.clear();
         mModels = models;
         for (KnowBaseModel model : models) {
-            mFragments.add(KnowListFragment.newInstance(String.valueOf(model.getId())));
+            mFragments.add(KnowListFragment.newInstance(model.getId()));
         }
     }
 
