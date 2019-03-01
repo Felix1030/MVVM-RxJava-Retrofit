@@ -6,37 +6,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/qmui_topbar_height"
             android:background="#FFFFFF"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            android:orientation="vertical">
 
-            <com.scwang.smartrefresh.layout.SmartRefreshLayout
-                android:id="@+id/fragment_know_refresh"
+            <com.qmuiteam.qmui.widget.QMUITabSegment
+                android:id="@+id/fragment_know_tabs"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="@dimen/dp44"
+                android:background="?attr/qmui_list_item_bg_with_border_top"
+                android:paddingStart="@dimen/dp12"
+                android:paddingEnd="@dimen/dp12"
+                android:textSize="12sp"
+                app:qmui_tab_has_indicator="true"
+                app:qmui_tab_icon_position="top"
+                app:qmui_tab_mode="scrollable" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp0.5"
+                android:background="@drawable/qmui_divider" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/fragment_know_left"
-                        android:layout_width="@dimen/dp120"
-                        android:layout_height="match_parent" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/fragment_know_right"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-        </FrameLayout>
+            <com.qmuiteam.qmui.widget.QMUIViewPager
+                android:id="@+id/fragment_know_vp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
 
         <com.qmuiteam.qmui.widget.QMUITopBarLayout
             android:id="@+id/fragment_know_top_bar"

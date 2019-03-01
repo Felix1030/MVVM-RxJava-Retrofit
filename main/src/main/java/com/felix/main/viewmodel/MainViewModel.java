@@ -42,6 +42,7 @@ public class MainViewModel extends BaseViewModel {
     public void initBanners() {
         MainApiServices.getBanners()
                 .compose(getLifecycleViewProvider().bindToDestroy())
+                .compose(provideProgress())
                 .subscribe(bannerModels -> getBanner().postValue(bannerModels), throwable -> {});
     }
 
@@ -53,13 +54,14 @@ public class MainViewModel extends BaseViewModel {
             }
             articleBaseModel.getDatas().addAll(0,articleModels);
             return articleBaseModel;
-        }).subscribe(mArticleBaseModel::postValue, throwable -> {});
+        }).compose(provideProgress()).subscribe(mArticleBaseModel::postValue, throwable -> {});
     }
 
     /**根据页码刷新*/
     @SuppressLint("CheckResult")
     public void initArticlesWithPage(int pageIndex) {
         MainApiServices.getArticles(pageIndex)
+                .compose(provideProgress())
                 .subscribe(mArticleBaseModel::postValue, throwable -> {});
     }
 

@@ -49,7 +49,7 @@ public class NavFragment extends BaseFragment<FragmentNavBinding, NavViewModel> 
     }
 
     @Override
-    protected void initData() {
+    protected void lazyFetchData() {
         mViewModel.initNavis();
     }
 }

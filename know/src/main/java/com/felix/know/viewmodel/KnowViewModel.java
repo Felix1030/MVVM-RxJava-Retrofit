@@ -31,6 +31,7 @@ public class KnowViewModel extends BaseViewModel {
     @SuppressLint("CheckResult")
     public void initKnowModels() {
         KnowApiServices.getProjectTree()
+                .compose(provideProgress())
                 .subscribeWith(new RxSubscriber<List<KnowBaseModel>>() {
                     @Override
                     protected void onSuccess(List<KnowBaseModel> knowBaseModels) {

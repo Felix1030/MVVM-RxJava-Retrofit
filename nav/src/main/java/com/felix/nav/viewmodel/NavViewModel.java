@@ -32,6 +32,7 @@ public class NavViewModel extends BaseViewModel {
     @SuppressLint("CheckResult")
     public void initNavis() {
         NavApiServices.getNavis()
+                .compose(provideProgress())
                 .map(navModels -> {
                     List<MultiItemEntity> navs = new ArrayList<>();
                     for (NavModel navModel : navModels) {

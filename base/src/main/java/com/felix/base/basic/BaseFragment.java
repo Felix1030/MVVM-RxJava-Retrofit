@@ -4,10 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import com.felix.base.R;
+import com.felix.base.utils.LogUtils;
 import com.felix.base.viewmodel.BaseViewModel;
 import com.qmuiteam.qmui.arch.QMUIFragment;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.trello.rxlifecycle3.LifecycleProvider;
 import com.trello.rxlifecycle3.LifecycleTransformer;
 import com.trello.rxlifecycle3.RxLifecycle;
@@ -16,6 +19,7 @@ import com.trello.rxlifecycle3.android.RxLifecycleAndroid;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
@@ -42,6 +46,15 @@ public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseVie
     // Fragment生命周期变化通知
     private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
 
+    /**加载框*/
+    private QMUITipDialog mLoadingDialog;
+    /**显示数量*/
+    private static AtomicInteger mLoadingCount = new AtomicInteger(0);
+
+    /**懒加载*/
+    private boolean mIsViewPrepared;
+    private boolean mHasFetchData;
+
     public BaseFragment() {
         mFragment = this;
     }
@@ -55,6 +68,10 @@ public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseVie
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.mContext = context;
+        mLoadingDialog = new QMUITipDialog.Builder(getContext())
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord(getString(R.string.str_loading_tip))
+                .create();
     }
 
     @Override
@@ -184,7 +201,23 @@ public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseVie
             // 白色背景  深色字体
             QMUIStatusBarHelper.setStatusBarLightMode(getBaseFragmentActivity());
         }
+        mIsViewPrepared = true;
+        lazyInitData();
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) lazyInitData();
+    }
+
+    private void lazyInitData() {
+        if (getUserVisibleHint() && mIsViewPrepared) {
+            lazyFetchData();
+        }
+    }
+
+    protected void lazyFetchData() {}
 
     // isLight = true  深色背景  白色字体
     // isLight = false 白色背景  深色字体
@@ -196,24 +229,38 @@ public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseVie
     private void registerUIProgressChangeCallBack() {
         // 显示Progress事件
         mViewModel.getUIProgressLiveData()
-                .getShowProgressEvent().observe(this,progressMessage -> {
-
-        });
+                .getShowProgressEvent().observe(this, this::showProgress);
         // 隐藏Progress回调事件
         mViewModel.getUIProgressLiveData()
-                .getDismissProgressEvent().observe(this, aVoid -> {
-
-                });
+                .getDismissProgressEvent().observe(this, aVoid -> dismissProgress());
     }
 
     // 显示Progress
     public void showProgress(String progressMessage) {
-
+        if (mLoadingDialog != null && !mLoadingDialog.isShowing()) {
+            mLoadingDialog.show();
+        }
+        mLoadingCount.getAndIncrement();
+        LogUtils.e(this.getClass().getSimpleName() + " dialog  showDialog ---> " + mLoadingCount.intValue());
     }
 
     // 隐藏Progress
     public void dismissProgress() {
+        cancelPopupLoading(false);
+    }
 
+    protected void cancelPopupLoading(boolean isForce) {
+        if (isForce) {
+            mLoadingCount.set(0);
+        }
+        mLoadingCount.getAndDecrement();
+        LogUtils.e(this.getClass().getSimpleName() + "  dialog dismissDialog  ---> " + mLoadingCount.intValue());
+        if (mLoadingCount.intValue() <= 0 ) {
+            mLoadingCount.set(0);
+            if (mLoadingDialog != null) {
+                mLoadingDialog.dismiss();
+            }
+        }
     }
 
     @Override
