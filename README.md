@@ -14,3 +14,16 @@
 ## 简介
 [MVVM-RxJava-Retrofit](https://github.com/Felix1030/MVVM-RxJava-Retrofit) 采用 `Java` 语言编写，结合 `MVVM` + `RxJava` + `Retrofit` + `Glide` + `RxBus` 等架构设计的项目，项目代码结构清晰并且有详细注释，如有任何疑问和建议请提 [Issues](https://github.com/Felix1030/MVVM-RxJava-Retrofit/issues) 或联系 qq： **675579354** ，**项目会持续迭代维护，努力打造一款优秀的 MVVM价格实现的[WanAndroid](http://www.wanandroid.com/) 客户端**。
 
+
+## API
+[**玩 Android 开放 API**](http://www.wanandroid.com/blog/show/2)
+
+
+## Thanks
+
+**感谢所有优秀的开源项目 ^_^** 。
+
+## Statement
+**项目中的 API 均来自于 [www.wanandroid.com](http://www.wanandroid.com/) 网站，纯属学习交流使用，不得用于商业用途。**
+
+## LICENSE
